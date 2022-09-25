@@ -2,46 +2,46 @@ import { AppBar } from "../components/AppBar";
 import { PageHeader } from "../components/PageHeader";
 import { useFormValuesFromParams } from "../utils";
 import distance from "@turf/distance";
+import React from "react";
+import { format } from "date-fns";
 
 export const Result = () => {
   const formValues = useFormValuesFromParams();
 
-  console.log(formValues);
+  const {
+    cityOrigin,
+    cityDestination,
+    intermediateCities,
+    numberOfPassengers,
+    dateOfTrip,
+  } = formValues;
 
-  if (
-    !formValues.cityOrigin ||
-    !formValues.cityDestination ||
-    // !formValues.numberOfPassengers ||
-    !formValues.dateOfTrip
-  )
-    return <h1>Incorrent URL</h1>;
-
-  const { cityOrigin, cityDestination, intermediateCities } = formValues;
-
-  const totalDistance = distance(
-    cityOrigin.coordinates,
-    cityDestination.coordinates,
-    { units: "kilometers" }
-  );
-
-  const allCities = [cityOrigin, ...intermediateCities, cityDestination];
-
-  const renderIntermediate = () => {
-    if (allCities.length < 3) return;
-    const toRender = [];
+  const { totalDistance, route } = React.useMemo(() => {
+    const allCities = [cityOrigin, ...intermediateCities, cityDestination];
+    let totalDistance = 0;
+    const route = [] as any[];
     for (let i = 0; i < allCities.length; i++) {
       const city = allCities[i];
       const nextCity = allCities[i + 1];
       if (!city || !nextCity) continue;
-      toRender.push(
-        <div key={i}>
-          {city.name} ⟶ {nextCity.name} (
-          {formatDistance(distance(city.coordinates, nextCity.coordinates))})
-        </div>
-      );
+      const _distance = distance(city.coordinates, nextCity.coordinates, {
+        units: "kilometers",
+      });
+      totalDistance += _distance;
+      route.push({
+        city1: city,
+        city2: nextCity,
+        distance: _distance,
+      });
     }
-    return toRender;
-  };
+    return {
+      totalDistance,
+      route,
+    };
+  }, [cityOrigin, intermediateCities, cityDestination]);
+
+  if (Object.values(formValues).some((v) => v == null))
+    return <h1>Incorrent URL</h1>;
 
   return (
     <div>
@@ -49,10 +49,26 @@ export const Result = () => {
         <PageHeader>Result</PageHeader>
       </AppBar>
 
-      <div>Start: {cityOrigin.name}</div>
-      <div>{renderIntermediate()}</div>
-      <div>Destination: {cityDestination.name}</div>
-      <div>Total distance: {formatDistance(totalDistance)}</div>
+      <div className="font-bold bg-yellow-500">
+        <span className="font-bold">Start:</span> {cityOrigin.name}
+      </div>
+      <div>
+        {route.map(({ city1, city2, distance: _distance }, index) => {
+          return (
+            <div key={index}>
+              {city1.name} ⟶ {city2.name} ({formatDistance(_distance)})
+            </div>
+          );
+        })}
+      </div>
+      <div className="font-bold bg-green-500">
+        Destination: {cityDestination.name}
+      </div>
+      <div className="border border-gray-400">
+        Total distance: {formatDistance(totalDistance)}
+      </div>
+      <div>Number of passengers: {numberOfPassengers}</div>
+      <div>Date of trip: {format(dateOfTrip, "MM/dd/yyyy")}</div>
     </div>
   );
 };
