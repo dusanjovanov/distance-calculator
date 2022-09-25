@@ -24,7 +24,6 @@ export const Result = () => {
       const city = allCities[i];
       const nextCity = allCities[i + 1];
       if (!city || !nextCity) continue;
-      console.log(city.coordinates, nextCity.coordinates);
       const distance = turfDistance(city.coordinates, nextCity.coordinates, {
         units: "kilometers",
       });
