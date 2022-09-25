@@ -57,6 +57,8 @@ export const useFormValuesFromParams = () => {
 
     if (name === "dateOfTrip") {
       finalValue = new Date(parsed);
+    } else if (name === "numberOfPassengers") {
+      finalValue = String(parsed);
     }
 
     result[name] = finalValue;
