@@ -1,7 +1,7 @@
 import { AppBar } from "../components/AppBar";
 import { PageHeader } from "../components/PageHeader";
 import { useFormValuesFromParams } from "../utils";
-import distance from "@turf/distance";
+import turfDistance from "@turf/distance";
 import React from "react";
 import { format } from "date-fns";
 
@@ -24,14 +24,14 @@ export const Result = () => {
       const city = allCities[i];
       const nextCity = allCities[i + 1];
       if (!city || !nextCity) continue;
-      const _distance = distance(city.coordinates, nextCity.coordinates, {
+      const distance = turfDistance(city.coordinates, nextCity.coordinates, {
         units: "kilometers",
       });
-      totalDistance += _distance;
+      totalDistance += distance;
       route.push({
         city1: city,
         city2: nextCity,
-        distance: _distance,
+        distance: distance,
       });
     }
     return {

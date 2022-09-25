@@ -1,5 +1,5 @@
 export const cities = [
-  { name: "Paris", coordinates: [2.352222, 48.856614] },
+  { name: "Paris", coordinates: [2.326424, 48.848826] },
   { name: "Marseille", coordinates: [5.36978, 43.296482] },
   { name: "Lyon", coordinates: [4.835659, 45.764043] },
   { name: "Toulouse", coordinates: [1.444209, 43.604652] },
