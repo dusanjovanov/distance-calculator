@@ -18,7 +18,7 @@ export const FormDatePickerField = ({
   return (
     <div className={rootClassName}>
       {labelText && <Label className="mb-1">{labelText}</Label>}
-      <DatePickerField {...props} />
+      <DatePickerField {...props} isError={!!error} />
       {error && <ErrorText>{error}</ErrorText>}
     </div>
   );

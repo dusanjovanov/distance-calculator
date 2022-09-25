@@ -31,19 +31,36 @@ export const CityField = ({
 }: CityFieldProps) => {
   const [isSearchLoading, setIsLoading] = React.useState(false);
   const [filteredCities, setFilteredCities] = React.useState<City[]>([]);
+  const [apiError, setApiError] = React.useState<Error | null>(null);
+  const refTimeout = React.useRef<NodeJS.Timeout>();
 
   React.useEffect(() => {
     setFilteredCities(cities);
   }, [cities]);
 
+  React.useEffect(() => {
+    if (apiError !== null) {
+      refTimeout.current = setTimeout(() => setApiError(null), 2000);
+    }
+    return () => {
+      clearTimeout(refTimeout.current);
+    };
+  }, [apiError]);
+
   const onSearch = useDebouncedCallback(async (search: string) => {
     if (search.length === 0) {
       return setFilteredCities(cities);
     }
+    setApiError(null);
     setIsLoading(true);
-    const result = await searchCitiesByName(search ?? "");
-    setFilteredCities(result);
-    setIsLoading(false);
+    try {
+      const result = await searchCitiesByName(search ?? "");
+      setFilteredCities(result);
+    } catch (err) {
+      setApiError(err as Error);
+    } finally {
+      setIsLoading(false);
+    }
   }, 300);
 
   return (
@@ -51,6 +68,7 @@ export const CityField = ({
       value={value}
       onChange={(value) => {
         onChange(value);
+        setApiError(null);
       }}
       items={filteredCities}
       itemToString={(city) => city?.name ?? ""}
@@ -61,6 +79,7 @@ export const CityField = ({
       rootClassName={rootClassName}
       comboboxClassName={comboboxClassName}
       error={error}
+      labelErrorText={apiError?.message}
     />
   );
 };

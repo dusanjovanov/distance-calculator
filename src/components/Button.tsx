@@ -7,7 +7,7 @@ type ButtonProps = React.DetailedHTMLProps<
 >;
 
 export const defaultButtonClassName =
-  "bg-blue-600 text-white px-3 py-1.5 border border-transparent text-md rounded-md hover:bg-blue-700 active:bg-blue-700 text-sm";
+  "bg-blue-600 text-white px-3 py-1.5 border border-transparent text-md rounded-md hover:bg-blue-700 active:bg-blue-700 text-sm disabled:bg-gray-300 disabled:cursor-not-allowed";
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, type = "button", children, ...props }, ref) => {

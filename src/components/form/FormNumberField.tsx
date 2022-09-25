@@ -3,6 +3,8 @@ import { FieldKey, useField } from "../../pages/search/form/Form";
 import { ErrorText } from "../ErrorText";
 import { Input } from "../Input";
 import { Label } from "../Label";
+import { twMerge } from "tailwind-merge";
+import { useSyncQueryParamWithField } from "../../utils";
 
 type Props = {
   id: string;
@@ -28,12 +30,13 @@ export const FormNumberField = ({
   validate,
   getError,
   inputProps,
-  ...props
 }: Props) => {
   const { value, setValue, validation } = useField({
     name,
     validate,
   });
+
+  useSyncQueryParamWithField(name, value);
 
   const error = getError && getError(validation);
 
@@ -49,6 +52,7 @@ export const FormNumberField = ({
         type="number"
         value={value as string}
         onChange={(e) => setValue(e.target.value)}
+        className={twMerge(!!error && "border-red-500")}
         {...inputProps}
       />
       {error && <ErrorText>{error}</ErrorText>}

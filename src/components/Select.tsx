@@ -13,6 +13,7 @@ export type SelectFieldProps<Item> = {
   placeholder?: string;
   comboboxClassName?: string;
   onSearch?: (search: string) => void;
+  isError?: boolean;
 };
 
 export const Select = <Item,>({
@@ -23,6 +24,7 @@ export const Select = <Item,>({
   comboboxClassName,
   onChange,
   onSearch,
+  isError,
 }: SelectFieldProps<Item>) => {
   const [search, setSearch] = React.useState("");
 
@@ -48,7 +50,11 @@ export const Select = <Item,>({
         >
           <Combobox.Button as="div" className="flex-1">
             <Combobox.Input
-              className={twMerge(defaultInputClassName, "rounded-r-none")}
+              className={twMerge(
+                defaultInputClassName,
+                "rounded-r-none",
+                isError && "border-red-500"
+              )}
               displayValue={(item) => itemToString(item as any)}
               value={search}
               onChange={(e) => _onSearch(e.target.value)}

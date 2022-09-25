@@ -23,21 +23,19 @@ export const cities = [
 
 export type City = typeof cities[number];
 
-export const getAllCities = () => {
-  return new Promise<City[]>((r) => setTimeout(() => r(cities), 500));
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+export const getAllCities = async () => {
+  await sleep(500);
+  return cities;
 };
 
-export const searchCitiesByName = (searchInput: string) => {
-  return new Promise<City[]>((r) =>
-    setTimeout(
-      () =>
-        r(
-          cities.filter(
-            (city) =>
-              city.name.toLowerCase().indexOf(searchInput.toLowerCase()) !== -1
-          )
-        ),
-      500
-    )
+export const searchCitiesByName = async (searchInput: string) => {
+  await sleep(500);
+  if (searchInput === "fail") {
+    throw new Error(`You entered the search term "fail"`);
+  }
+  return cities.filter(
+    (city) => city.name.toLowerCase().indexOf(searchInput.toLowerCase()) !== -1
   );
 };

@@ -1,4 +1,5 @@
 import { isObject } from "fun-validation";
+import { useSyncQueryParamWithField } from "../../../../utils";
 import { CityField, CityFieldProps } from "../CityField";
 import { useField } from "../Form";
 
@@ -14,6 +15,7 @@ export const FormCityField = ({ name, ...props }: Props) => {
     name,
     validate: (value) => isObject(value),
   });
+  useSyncQueryParamWithField(name, value);
 
   const error = validation === false ? "Required" : undefined;
 

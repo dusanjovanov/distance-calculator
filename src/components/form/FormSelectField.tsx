@@ -8,6 +8,7 @@ export type FormSelectFieldProps<Item> = SelectFieldProps<Item> & {
   labelText?: string;
   isLoading?: boolean;
   error?: string;
+  labelErrorText?: string;
 };
 
 export const FormSelectField = <Item,>({
@@ -15,16 +16,18 @@ export const FormSelectField = <Item,>({
   labelText,
   isLoading,
   error,
+  labelErrorText,
   ...props
 }: FormSelectFieldProps<Item>) => {
   return (
     <div className={rootClassName}>
-      {labelText && (
+      {(labelText || labelErrorText) && (
         <Label className="mb-1" isLoading={isLoading}>
           {labelText}
+          <span className="text-red-500">{labelErrorText}</span>
         </Label>
       )}
-      <Select {...props} />
+      <Select {...props} isError={!!error} />
       {error && <ErrorText>{error}</ErrorText>}
     </div>
   );

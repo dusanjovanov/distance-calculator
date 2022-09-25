@@ -6,6 +6,7 @@ import { City } from "../../../data";
 import { CityField } from "./CityField";
 import { useField } from "./Form";
 import { isObject } from "fun-validation";
+import { useSyncQueryParamWithField } from "../../../utils";
 
 type Props = {
   cities: City[];
@@ -23,6 +24,8 @@ export const IntermediateCities = ({
     validate: (value) => value.map((item) => isObject(item)),
   });
 
+  useSyncQueryParamWithField("intermediateCities", value);
+
   let content: React.ReactNode = (
     <div className="text-sm text-gray-500">No intermediate cities added.</div>
   );
@@ -33,7 +36,7 @@ export const IntermediateCities = ({
       return (
         <div
           key={`${city?.name ?? ""}${index}`}
-          className="flex items-stretch gap-3 mb-3"
+          className="flex items-start gap-3 mb-3"
         >
           <div className="flex-1">
             <CityField

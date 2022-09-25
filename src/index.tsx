@@ -7,7 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import "./index.css";
-import { Distance } from "./pages/Distance";
+import { Result } from "./pages/Result";
 import { Search } from "./pages/search/Search";
 import reportWebVitals from "./reportWebVitals";
 
@@ -15,7 +15,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/">
       <Route path="" element={<Search />} />
-      <Route path="/distance" element={<Distance />} />
+      <Route path="/result" element={<Result />} />
     </Route>
   )
 );
