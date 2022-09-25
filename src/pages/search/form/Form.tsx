@@ -3,7 +3,7 @@ import React from "react";
 import { createForm } from "react-nerd";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../../../components/Button";
-import { City, getAllCities } from "../../../data";
+import { cities, City, getAllCities } from "../../../data";
 import { useFormValuesFromParams } from "../../../utils";
 import { DateOfTrip } from "./DateOfTrip";
 import { FormCityField } from "./form-components/FormCityField";
@@ -116,13 +116,7 @@ export const Form = () => {
   );
 };
 
-const formValuesToUrlParams = (formValues: {
-  cityOrigin: City;
-  intermediateCities: City[];
-  cityDestination: City;
-  dateOfTrip: Date;
-  numberOfPassengers: number;
-}) => {
+const formValuesToUrlParams = (formValues: typeof formEmptyValues) => {
   const obj = {} as any;
 
   if (formValues.cityOrigin) {
@@ -138,10 +132,10 @@ const formValuesToUrlParams = (formValues: {
   }
 
   if (isDate(formValues.dateOfTrip)) {
-    obj.dateOfTrip = formValues.dateOfTrip.getTime();
+    obj.dateOfTrip = formValues.dateOfTrip!.getTime();
   }
 
-  if (typeof formValues.numberOfPassengers === "number") {
+  if (typeof formValues.numberOfPassengers === "string") {
     obj.numberOfPassengers = formValues.numberOfPassengers;
   }
 
@@ -149,12 +143,9 @@ const formValuesToUrlParams = (formValues: {
 };
 
 const testSearchFormState = {
-  cityOrigin: { name: "Paris", coordinates: [1, 2] },
-  intermediateCities: [
-    { name: "Lyon", coordinates: [4.835659, 45.764043] },
-    { name: "Toulouse", coordinates: [1.444209, 43.604652] },
-  ],
-  cityDestination: { name: "Strasbourg", coordinates: [7.752111, 48.573405] },
+  cityOrigin: cities[0],
+  intermediateCities: [cities[1], cities[2]],
+  cityDestination: cities[3],
   dateOfTrip: addDays(new Date(), 1),
-  numberOfPassengers: 2,
+  numberOfPassengers: "2",
 };
