@@ -56,7 +56,8 @@ export const Result = () => {
         {route.map(({ city1, city2, distance: _distance }, index) => {
           return (
             <div key={index}>
-              {city1.name} ⟶ {city2.name} ({formatDistance(_distance)})
+              {city1.name} → {city2.name}{" "}
+              ({formatDistance(_distance)})
             </div>
           );
         })}
