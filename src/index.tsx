@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import { Distance } from "./pages/Distance";
-import { Search } from "./pages/Search";
+import { Search } from "./pages/search/Search";
 import reportWebVitals from "./reportWebVitals";
 
 const router = createBrowserRouter(

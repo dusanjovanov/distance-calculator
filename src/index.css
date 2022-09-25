@@ -15,3 +15,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.my-calendar {
+  width: 300px;
+  @apply border rounded-md bg-white shadow-lg;
+}
+
+.my-calendar .react-calendar__navigation {
+  @apply w-full flex items-stretch pb-2;
+}
+
+.my-calendar .react-calendar__navigation__arrow {
+  @apply text-xl hover:bg-gray-200 rounded-md min-w-[35px] min-h-[35px];
+}
+
+.my-calendar .react-calendar__navigation__label {
+  @apply hover:bg-gray-200 rounded-md px-2 py-1 text-sm;
+}
+
+.my-calendar .react-calendar__month-view__weekdays__weekday {
+  @apply text-center text-sm pb-2;
+}
+
+.my-calendar .react-calendar__month-view__weekdays__weekday abbr {
+  @apply no-underline font-semibold;
+}
+
+.my-calendar .react-calendar__tile {
+  @apply text-sm;
+}
+
+.my-calendar .react-calendar__tile--active {
+  @apply bg-blue-600 text-white hover:bg-blue-700 hover:text-white;
+}
+
+.my-calendar .react-calendar__tile--now {
+  @apply border border-dashed border-black;
+}
